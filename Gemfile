@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
@@ -68,22 +67,3 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
-=======
-source 'https://rubygems.org'
-
-ruby '3.0.0'
-
-# Core gems
-gem 'rake'
-gem 'bundler'
-
-# Development and testing
-group :development, :test do
-  gem 'rspec'
-  gem 'pry'
-end
-
-group :development do
-  gem 'rubocop'
-end 
->>>>>>> b8406c5dbcaf9bda7364fd5f22e75a9d6ca2d1e2
