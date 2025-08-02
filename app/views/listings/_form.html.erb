@@ -26,9 +26,31 @@
     <%= form.rich_textarea :description, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": listing.errors[:description].none?, "border-red-400 focus:outline-red-600": listing.errors[:description].any?}] %>
   </div>
 
-  <div class="my-5">
+  <div class="my-5" data-controller="image-upload">
     <%= form.label :images %>
-    <%= form.file_field :images, multiple: true, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": listing.errors[:images].none?, "border-red-400 focus:outline-red-600": listing.errors[:images].any?}] %>
+    <%= form.file_field :images, multiple: true, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", direct_upload: true, data: { image_upload_target: "input", action: "image-upload#fileAdded" } %>
+    
+    <!-- Image preview container -->
+    <div data-image-upload-target="preview" class="grid grid-cols-3 gap-4 mt-4"></div>
+  </div>
+
+  <div class="grid grid-cols-3 gap-8 my-5">
+
+    <div class="">
+      <%= form.label :bedrooms %>
+      <%= form.number_field :bedrooms, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", min: 1 %>
+    </div>
+
+    <div class="">
+      <%= form.label :bathrooms %>
+      <%= form.number_field :bathrooms, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", min: 1 %>
+    </div>
+
+    <div class="">
+    <%= form.label :people_limit, "Max guests capacity" %>
+    <%= form.number_field :people_limit, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", min: 1 %>
+  </div>
+
   </div>
 
   <div class="inline">

@@ -1,10 +1,39 @@
 
-<div class="flex gap-8 mx-auto rounded-lg overflow-hidden">
-  <%= image_tag @listing.images.first, class: "w-80 h-80" %>
-  <div class="grid grid-cols-2 gap-8 flex-wrap">
-    <% @listing.images[1..4].each do |image| %>
-      <%= image_tag image, class: "h-36 object-cover" %>
-    <% end %>
+<div class="flex flex-col items-center max-w-3xl w-full mx-auto">
+  <div class="flex justify-between w-full items-center">
+    <%= link_to "Back to listings", listings_path, class: "bg-gray-100 rounded-lg border-2 border-gray-900 mr-auto p-2" %>
+    <%= link_to "Edit", edit_listing_path(@listing), class: "bg-gray-100 rounded-lg border-2 border-gray-900 mr-auto p-2" %>
+  </div>
+  </br>
+  <% if @listing.images.any? %>
+    <div class="flex flex-col md:flex-row gap-8 rounded-lg overflow-hidden relative">
+      <%= image_tag @listing.images.first, class: "md: w-80 h-80" %>
+      <div class="grid grid-cols-4 md:grid-cols-2 md:gap-8 flex-wrap">
+        <% @listing.images[1..4].each do |image| %>
+          <%= image_tag image, class: "h-20 w-20 md: w-auto h-36 object-cover" %>
+        <% end %>
+      </div>
+      <%= link_to "Show all photos", photos_listing_path(@listing), class: "absolute bottom-4 right-4 bg-white rounded-lg p-2" %>
+    </div>
+  <% end %>
+  </br>
+  <h1 class="text-2xl font-semibold"><%= @listing.title %></h1>
+  <%= @listing.description %>
+
+  <div class="grid grid-cols-3 gap-8 mt-8">
+    <div class="shadow-lg bg-gray-100 h-20 flex flex-col items-center justify-center">
+      <i class="fa-solid fa-bed fa-2x"></i>
+      <span class="text-2xl"><%= @listing.bedrooms %></span>
+    </div>
+
+    <div class="shadow-lg bg-gray-100 h-20 flex flex-col items-center justify-center">
+      <i class="fa-solid fa-toilet fa-2x"></i>
+      <span class="text-2xl"><%= @listing.bathrooms %></span>
+    </div>
+
+    <div class="shadow-lg bg-gray-100 h-20 flex flex-col items-center justify-center">
+      <i class="fa-solid fa-person fa-2x"></i>
+      <span class="text-2xl"><%= @listing.people_limit %></span>
+    </div>
   </div>
 </div>
-

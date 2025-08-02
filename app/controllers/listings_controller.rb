@@ -1,5 +1,5 @@
 class ListingsController < ApplicationController
-  before_action :set_listing, only: %i[ show edit update destroy ]
+  before_action :set_listing, only: %i[ show edit update destroy photos ]
 
   # GET /listings or /listings.json
   def index
@@ -57,6 +57,9 @@ class ListingsController < ApplicationController
     end
   end
 
+  def photos
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_listing
@@ -65,6 +68,6 @@ class ListingsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def listing_params
-      params.expect(listing: [ :title, :address, :description, images: [] ])
+      params.expect(listing: [ :title, :address, :description, :bathrooms, :bedrooms, :people_limit, images: [] ])
     end
 end
