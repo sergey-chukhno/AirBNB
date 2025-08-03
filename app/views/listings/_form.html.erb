@@ -30,7 +30,35 @@
     <%= form.label :images %>
     <%= form.file_field :images, multiple: true, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", direct_upload: true, data: { image_upload_target: "input", action: "image-upload#fileAdded" } %>
     
-    <!-- Image preview container -->
+    <!-- Existing images display -->
+    <% if listing.images.any? %>
+      <div class="mt-4">
+        <h4 class="text-sm font-medium text-gray-700 mb-2">Current Images:</h4>
+        <div class="grid grid-cols-3 gap-4" data-image-upload-target="existing">
+          <% listing.images.each do |image| %>
+            <div class="relative" data-image-id="<%= image.id %>">
+              <%= image_tag image, class: "w-full h-32 object-cover rounded-lg shadow-md" %>
+              <!-- Remove existing image button -->
+              <button type="button" 
+                      class="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 text-sm font-bold hover:bg-red-600 transition-colors cursor-pointer z-10"
+                      style="display: flex; align-items: center; justify-content: center; line-height: 1;"
+                      data-action="click->image-upload#removeExistingImage"
+                      data-image-id="<%= image.id %>">
+                &times;
+              </button>
+              <!-- Hidden input to mark for deletion -->
+              <input type="hidden" 
+                     id="delete_image_<%= image.id %>" 
+                     name="listing[images_to_delete][]" 
+                     value=""
+                     data-image-id="<%= image.id %>">
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    
+    <!-- New image preview container -->
     <div data-image-upload-target="preview" class="grid grid-cols-3 gap-4 mt-4"></div>
   </div>
 

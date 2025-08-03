@@ -36,8 +36,26 @@ class ListingsController < ApplicationController
 
   # PATCH/PUT /listings/1 or /listings/1.json
   def update
+    # Handle image deletions first
+    if params[:listing][:images_to_delete].present?
+      images_to_delete = params[:listing][:images_to_delete].reject(&:blank?)
+      images_to_delete.each do |image_id|
+        image_attachment = @listing.images.find(image_id)
+        image_attachment.purge if image_attachment
+      end
+    end
+    
+    # Extract images from params to handle separately
+    listing_update_params = listing_params.except(:images, :images_to_delete)
+    new_images = params[:listing][:images]
+    
     respond_to do |format|
-      if @listing.update(listing_params)
+      if @listing.update(listing_update_params)
+        # Attach new images if any were uploaded
+        if new_images.present?
+          @listing.images.attach(new_images)
+        end
+        
         format.html { redirect_to @listing, notice: "Listing was successfully updated." }
         format.json { render :show, status: :ok, location: @listing }
       else
@@ -68,6 +86,6 @@ class ListingsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def listing_params
-      params.expect(listing: [ :title, :address, :description, :bathrooms, :bedrooms, :people_limit, images: [] ])
+      params.expect(listing: [ :title, :address, :description, :bathrooms, :bedrooms, :people_limit, images: [], images_to_delete: [] ])
     end
 end

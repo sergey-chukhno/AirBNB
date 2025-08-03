@@ -3,7 +3,7 @@ import { DirectUpload } from "@rails/activestorage"
 
 // Connects to data-controller="image-upload"
 export default class extends Controller {
-  static targets = ["input", "preview"]
+  static targets = ["input", "preview", "existing"]
   
   fileAdded(event) {
     // Clear previous previews (don't clear on re-selection)
@@ -124,6 +124,28 @@ export default class extends Controller {
           console.log("Removed hidden input for:", fileName)
         }
       })
+    }
+  }
+  
+  removeExistingImage(event) {
+    const imageId = event.target.dataset.imageId
+    const imageContainer = event.target.closest('[data-image-id]')
+    const hiddenInput = document.getElementById(`delete_image_${imageId}`)
+    
+    if (hiddenInput && imageContainer) {
+      // Mark for deletion by setting the hidden input value
+      hiddenInput.value = imageId
+      
+      // Visual feedback - fade out the image
+      imageContainer.style.opacity = '0.5'
+      imageContainer.style.pointerEvents = 'none'
+      
+      // Update the button to show it's marked for deletion
+      event.target.innerHTML = '✓'
+      event.target.className = 'absolute top-2 right-2 bg-gray-500 text-white rounded-full w-6 h-6 text-sm font-bold cursor-not-allowed z-10'
+      event.target.style.cssText = "display: flex; align-items: center; justify-content: center; line-height: 1;"
+      
+      console.log(`Marked image ${imageId} for deletion`)
     }
   }
 }
