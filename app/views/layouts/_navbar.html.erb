@@ -1,0 +1,28 @@
+<div class="w-full h-16 flex items-center border-b border-gray-200 fixed top-0 bg-white">
+    <div class="container px-5 w-full mx-auto flex justify-between items-center">
+        <%= link_to "/", class: "text-red-500 text-xl font-bold flex items-end gap-2" do %>
+            <%= image_tag "logo-nav.png", class: "w-8 object-cover" %>
+            <span>Airbnb</span>
+        <% end %>
+
+        <div class="flex gap-4 items-center">
+            <% if !current_user %>
+                <%= link_to "Sign in", new_user_session_path, class: "rounded-lg font-semibold border-2 border-gray-100 p-2" %>
+                <%= link_to "Create user", new_user_registration_path, class: "rounded-lg font-semibold border-2 border-indigo-500 p-2 bg-gradient-to-r from-indigo-500 to-pink-500 text-pink-100" %>
+            <% else %>
+                <%= link_to "New listing", new_listing_path, class: "rounded-lg font-semibold border-2 border-indigo-500 p-2 bg-gradient-to-r from-indigo-500 to-pink-500 text-pink-100" %>
+            
+                <div class="relative" data-controller="dropdown" data-action="click@window->dropdown#closeUnlessDropdown">
+                    <a href="#" class="border-2 border-gray-100 rounded-full p-2 flex items-center gap-2" data-action="click->dropdown#toggle">
+                        <i class="fa-solid fa-user text-gray-500"></i>
+                    </a>
+
+                    <div class="absolute -left-24 top-11 w-40 h-64 bg-white border-2 border-gray-100 rounded-lg hidden flex flex-col items-center gap-4 p-2 transition-all duration-300" data-dropdown-target="menu">
+                        <%= link_to "Settings", settings_path %>
+                        <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete } %>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</div>
